@@ -68,5 +68,17 @@ export class CartsCollection {
                 }
             }
         });
+
+        this.server.method({
+            name: 'datasource.carts.deleteAll',
+            method: async () => { 
+                try {
+                    const result = await db.collection('carts').remove();
+                    return result;
+                } catch (error) {
+                    throw new Error(error);
+                }
+            }
+        });
     }
 }

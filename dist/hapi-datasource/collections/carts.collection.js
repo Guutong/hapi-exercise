@@ -75,6 +75,18 @@ class CartsCollection {
                 }
             })
         });
+        this.server.method({
+            name: 'datasource.carts.deleteAll',
+            method: () => __awaiter(this, void 0, void 0, function* () {
+                try {
+                    const result = yield db.collection('carts').remove();
+                    return result;
+                }
+                catch (error) {
+                    throw new Error(error);
+                }
+            })
+        });
     }
 }
 exports.CartsCollection = CartsCollection;

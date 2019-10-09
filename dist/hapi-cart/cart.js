@@ -113,6 +113,22 @@ class Plugin {
                     }
                 }
             });
+            server.route({
+                method: 'DELETE',
+                path: '/carts',
+                handler: (request, h) => __awaiter(this, void 0, void 0, function* () {
+                    try {
+                        const result = yield server.methods.datasource.carts.deleteAll();
+                        return result;
+                    }
+                    catch (error) {
+                        Boom.internal("Internal server error: ", error);
+                    }
+                }),
+                options: {
+                    tags: ['api']
+                }
+            });
         });
     }
 }

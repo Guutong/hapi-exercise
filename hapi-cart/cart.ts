@@ -101,5 +101,21 @@ export default class Plugin {
                 }
             }
         });
+
+        server.route({
+            method: 'DELETE',
+            path:'/carts',
+            handler: async (request: Hapi.Request, h: Hapi.ResponseToolkit) => {
+                try {
+                    const result = await server.methods.datasource.carts.deleteAll();
+                    return result;
+                } catch (error) {
+                    Boom.internal("Internal server error: ", error);
+                }
+            },
+            options: {
+                tags: ['api']
+            }
+        });
     } 
 }
