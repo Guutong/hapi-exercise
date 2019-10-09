@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const Boom = require("@hapi/boom");
 class Plugin {
     constructor() {
         this.name = 'cartsPlugin';
@@ -20,51 +21,59 @@ class Plugin {
             server.route({
                 method: 'GET',
                 path: '/carts',
-                handler: (request, h) => {
-                    const id = Number(request.query.id);
-                    if (id) {
-                        const productIds = this.carts.map(product => product.id);
-                        return this.carts[productIds.indexOf(id)] || null;
+                handler: (request, h) => __awaiter(this, void 0, void 0, function* () {
+                    const id = request.query.id;
+                    try {
+                        const result = yield server.methods.datasource.carts.get(id);
+                        return result;
                     }
-                    else {
-                        return this.carts;
+                    catch (error) {
+                        Boom.internal("Internal server error: ", error);
                     }
-                }
+                })
             });
             server.route({
                 method: 'POST',
                 path: '/carts',
-                handler: (request, h) => {
+                handler: (request, h) => __awaiter(this, void 0, void 0, function* () {
                     const payload = request.payload;
-                    this.carts.push(payload);
-                    return this.carts;
-                }
+                    try {
+                        const result = yield server.methods.datasource.carts.insert(payload);
+                        return result;
+                    }
+                    catch (error) {
+                        Boom.internal("Internal server error: ", error);
+                    }
+                })
             });
             server.route({
                 method: 'PATCH',
                 path: '/carts/{id}',
-                handler: (request, h) => {
-                    const id = Number(request.params.id);
+                handler: (request, h) => __awaiter(this, void 0, void 0, function* () {
+                    const id = request.params.id;
                     const payload = request.payload;
-                    if (id) {
-                        const productIds = this.carts.map(product => product.id);
-                        if (productIds.indexOf(id) !== -1) {
-                            const temp = this.carts[productIds.indexOf(id)];
-                            temp['price'] = payload.price;
-                            this.carts[productIds.indexOf(id)] = temp;
-                        }
+                    try {
+                        const result = yield server.methods.datasource.carts.update(id, payload);
+                        return result;
                     }
-                    return this.carts;
-                }
+                    catch (error) {
+                        Boom.internal("Internal server error: ", error);
+                    }
+                })
             });
             server.route({
                 method: 'DELETE',
                 path: '/carts/{id}',
-                handler: (request, h) => {
-                    const id = Number(request.params.id);
-                    this.carts = this.carts.filter(product => product.id !== id);
-                    return this.carts;
-                }
+                handler: (request, h) => __awaiter(this, void 0, void 0, function* () {
+                    const id = request.params.id;
+                    try {
+                        const result = yield server.methods.datasource.carts.delete(id);
+                        return result;
+                    }
+                    catch (error) {
+                        Boom.internal("Internal server error: ", error);
+                    }
+                })
             });
         });
     }

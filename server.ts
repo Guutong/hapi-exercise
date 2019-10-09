@@ -14,8 +14,21 @@ const init = async () => {
         }
     });
 
+    const mongoConnection = {
+        url: 'mongodb://mc:mc@localhost:27018/exampledb',
+        settings: {
+            poolSize: 10
+        },
+        decorate: true
+    };
+
     await server.register([
-        require('./hapi-cart')
+        {
+            plugin: require('hapi-mongodb'),
+            options: mongoConnection
+        },
+        require('./hapi-datasource'),
+        require('./hapi-cart'),
     ]);
 
     await server.start();

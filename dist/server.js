@@ -22,8 +22,20 @@ const init = () => __awaiter(void 0, void 0, void 0, function* () {
             return 'Hello World!';
         }
     });
+    const mongoConnection = {
+        url: 'mongodb://mc:mc@localhost:27018/exampledb',
+        settings: {
+            poolSize: 10
+        },
+        decorate: true
+    };
     yield server.register([
-        require('./hapi-cart')
+        {
+            plugin: require('hapi-mongodb'),
+            options: mongoConnection
+        },
+        require('./hapi-datasource'),
+        require('./hapi-cart'),
     ]);
     yield server.start();
     console.log('Server running on %s', server.info.uri);

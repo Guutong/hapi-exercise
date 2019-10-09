@@ -1,4 +1,5 @@
 import * as Hapi from "@hapi/hapi";
+import * as Boom from "@hapi/boom";
 
 export default class Plugin { 
     name: string = 'cartsPlugin';
@@ -9,13 +10,13 @@ export default class Plugin {
         server.route({
             method: 'GET',
             path:'/carts',
-            handler: (request: Hapi.Request, h: Hapi.ResponseToolkit) => {
-                const id = Number(request.query.id)
-                if (id) {
-                    const productIds = this.carts.map(product => product.id)
-                    return this.carts[productIds.indexOf(id)] || null;
-                } else { 
-                    return this.carts;
+            handler: async (request: Hapi.Request, h: Hapi.ResponseToolkit) => {
+                const id = request.query.id
+                try {
+                    const result = await server.methods.datasource.carts.get(id)
+                    return result;
+                } catch (error) {
+                    Boom.internal("Internal server error: ", error);
                 }
             }
         });
@@ -23,38 +24,43 @@ export default class Plugin {
         server.route({
             method: 'POST',
             path:'/carts',
-            handler: (request: Hapi.Request, h: Hapi.ResponseToolkit) => {
+            handler: async (request: Hapi.Request, h: Hapi.ResponseToolkit) => {
                 const payload = request.payload
-                this.carts.push(payload);
-                return this.carts;
+                try {
+                    const result = await server.methods.datasource.carts.insert(payload);
+                    return result;
+                } catch (error) {
+                    Boom.internal("Internal server error: ", error);
+                }
             }
         });
     
         server.route({
             method: 'PATCH',
             path:'/carts/{id}',
-            handler: (request: Hapi.Request, h: Hapi.ResponseToolkit) => {
-                const id = Number(request.params.id)
+            handler: async (request: Hapi.Request, h: Hapi.ResponseToolkit) => {
+                const id = request.params.id
                 const payload = request.payload
-                if (id) { 
-                    const productIds: number[] = this.carts.map(product => product.id)                
-                    if (productIds.indexOf(id) !== -1) {
-                        const temp = this.carts[productIds.indexOf(id)];                    
-                        temp['price'] = payload.price;
-                        this.carts[productIds.indexOf(id)] = temp;
-                    }
+                try {
+                    const result = await server.methods.datasource.carts.update(id, payload);
+                    return result;
+                } catch (error) {
+                    Boom.internal("Internal server error: ", error);
                 }
-                return this.carts;
             }
         });
     
         server.route({
             method: 'DELETE',
             path:'/carts/{id}',
-            handler: (request: Hapi.Request, h: Hapi.ResponseToolkit) => {
-                const id = Number(request.params.id)
-                this.carts = this.carts.filter(product => product.id !== id)
-                return this.carts;
+            handler: async (request: Hapi.Request, h: Hapi.ResponseToolkit) => {
+                const id = request.params.id
+                try {
+                    const result = await server.methods.datasource.carts.delete(id);
+                    return result;
+                } catch (error) {
+                    Boom.internal("Internal server error: ", error);
+                }
             }
         });
     } 

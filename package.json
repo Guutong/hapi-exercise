@@ -14,7 +14,9 @@
     "typescript": "^3.6.3"
   },
   "dependencies": {
+    "@hapi/boom": "^8.0.1",
     "@hapi/hapi": "^18.4.0",
+    "hapi-mongodb": "^9.0.0",
     "qs": "^6.9.0"
   }
 }
