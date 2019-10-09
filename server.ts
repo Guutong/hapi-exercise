@@ -23,6 +23,17 @@ const init = async () => {
     };
 
     await server.register([
+        require('@hapi/inert'),
+        require('@hapi/vision'),
+        {
+            plugin: require('hapi-swagger'),
+            options: {
+                info: {
+                    title: 'API Documentation',
+                    version: '1.0.0',
+                },
+            }
+        },
         {
             plugin: require('hapi-mongodb'),
             options: mongoConnection
@@ -31,7 +42,27 @@ const init = async () => {
         require('./hapi-cart'),
     ]);
 
-    await server.start();
+
+    // server.start(() => {
+    //     promiseA((a) => { 
+    //         promiseB(a, (b) => { 
+    //             promiseC(b, () => { 
+    //                 if () {
+
+    //                 } else { 
+
+    //                 }
+    //             });
+    //         });
+    //     });
+    //     console.log('Server running on %s', server.info.uri);
+    // });
+
+    // server.start().then(() => { 
+    //     console.log('Server running on %s', server.info.uri);
+    // });
+
+    await server.start()
     console.log('Server running on %s', server.info.uri);
 };
 

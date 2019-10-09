@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const Boom = require("@hapi/boom");
+const Joi = require("@hapi/joi");
 class Plugin {
     constructor() {
         this.name = 'cartsPlugin';
@@ -30,7 +31,15 @@ class Plugin {
                     catch (error) {
                         Boom.internal("Internal server error: ", error);
                     }
-                })
+                }),
+                options: {
+                    tags: ['api'],
+                    validate: {
+                        query: Joi.object({
+                            id: Joi.string()
+                        })
+                    }
+                }
             });
             server.route({
                 method: 'POST',
@@ -44,7 +53,16 @@ class Plugin {
                     catch (error) {
                         Boom.internal("Internal server error: ", error);
                     }
-                })
+                }),
+                options: {
+                    tags: ['api'],
+                    validate: {
+                        payload: Joi.object({
+                            name: Joi.string().min(1).required().error(new Error('Was REALLY expecting a string')),
+                            price: Joi.number().integer().min(0).required()
+                        })
+                    }
+                }
             });
             server.route({
                 method: 'PATCH',
@@ -59,7 +77,19 @@ class Plugin {
                     catch (error) {
                         Boom.internal("Internal server error: ", error);
                     }
-                })
+                }),
+                options: {
+                    tags: ['api'],
+                    validate: {
+                        params: Joi.object({
+                            id: Joi.string()
+                        }),
+                        payload: Joi.object({
+                            name: Joi.string().min(1).required(),
+                            price: Joi.number().integer().min(0).required()
+                        })
+                    }
+                }
             });
             server.route({
                 method: 'DELETE',
@@ -73,7 +103,15 @@ class Plugin {
                     catch (error) {
                         Boom.internal("Internal server error: ", error);
                     }
-                })
+                }),
+                options: {
+                    tags: ['api'],
+                    validate: {
+                        params: Joi.object({
+                            id: Joi.string()
+                        })
+                    }
+                }
             });
         });
     }

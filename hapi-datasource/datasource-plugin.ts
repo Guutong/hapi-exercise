@@ -1,4 +1,5 @@
 import { CartsCollection } from "./collections/carts.collection";
+import { ShippingCollection } from "./collections/shipping.collection";
 
 export default class Plugin { 
     name: string = "datasource"
@@ -6,5 +7,6 @@ export default class Plugin {
 
     async register(server, options) { 
         new CartsCollection(server, options).register();
+        new ShippingCollection(server, options).register();
     }
 }

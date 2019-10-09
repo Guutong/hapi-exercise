@@ -30,6 +30,17 @@ const init = () => __awaiter(void 0, void 0, void 0, function* () {
         decorate: true
     };
     yield server.register([
+        require('@hapi/inert'),
+        require('@hapi/vision'),
+        {
+            plugin: require('hapi-swagger'),
+            options: {
+                info: {
+                    title: 'API Documentation',
+                    version: '1.0.0',
+                },
+            }
+        },
         {
             plugin: require('hapi-mongodb'),
             options: mongoConnection
@@ -37,6 +48,21 @@ const init = () => __awaiter(void 0, void 0, void 0, function* () {
         require('./hapi-datasource'),
         require('./hapi-cart'),
     ]);
+    // server.start(() => {
+    //     promiseA((a) => { 
+    //         promiseB(a, (b) => { 
+    //             promiseC(b, () => { 
+    //                 if () {
+    //                 } else { 
+    //                 }
+    //             });
+    //         });
+    //     });
+    //     console.log('Server running on %s', server.info.uri);
+    // });
+    // server.start().then(() => { 
+    //     console.log('Server running on %s', server.info.uri);
+    // });
     yield server.start();
     console.log('Server running on %s', server.info.uri);
 });
