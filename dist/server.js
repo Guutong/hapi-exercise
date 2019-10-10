@@ -47,22 +47,8 @@ const init = () => __awaiter(void 0, void 0, void 0, function* () {
         },
         require('./hapi-datasource'),
         require('./hapi-cart'),
+        require('./hapi-product'),
     ]);
-    // server.start(() => {
-    //     promiseA((a) => { 
-    //         promiseB(a, (b) => { 
-    //             promiseC(b, () => { 
-    //                 if () {
-    //                 } else { 
-    //                 }
-    //             });
-    //         });
-    //     });
-    //     console.log('Server running on %s', server.info.uri);
-    // });
-    // server.start().then(() => { 
-    //     console.log('Server running on %s', server.info.uri);
-    // });
     yield server.start();
     console.log('Server running on %s', server.info.uri);
 });

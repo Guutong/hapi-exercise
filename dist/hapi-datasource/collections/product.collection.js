@@ -10,7 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongodb = require("mongodb");
-class CartsCollection {
+class ProductsCollection {
     constructor(server, options) {
         this.server = server;
         this.options = options;
@@ -18,14 +18,14 @@ class CartsCollection {
     register() {
         const db = this.server.mongo.db;
         this.server.method({
-            name: 'datasource.carts.get',
+            name: 'datasource.products.get',
             method: (id) => __awaiter(this, void 0, void 0, function* () {
                 try {
                     const query = {};
                     if (id) {
                         query["_id"] = mongodb.ObjectId(id);
                     }
-                    const result = yield db.collection('carts').find(query).toArray();
+                    const result = yield db.collection('products').find(query).toArray();
                     return result;
                 }
                 catch (error) {
@@ -34,10 +34,10 @@ class CartsCollection {
             })
         });
         this.server.method({
-            name: 'datasource.carts.insert',
+            name: 'datasource.products.insert',
             method: (payload) => __awaiter(this, void 0, void 0, function* () {
                 try {
-                    const result = yield db.collection('carts').insertOne(payload);
+                    const result = yield db.collection('products').insertOne(payload);
                     return result;
                 }
                 catch (error) {
@@ -46,13 +46,13 @@ class CartsCollection {
             })
         });
         this.server.method({
-            name: 'datasource.carts.update',
+            name: 'datasource.products.update',
             method: (id, payload) => __awaiter(this, void 0, void 0, function* () {
                 try {
                     const query = {
                         "_id": mongodb.ObjectId(id)
                     };
-                    const result = yield db.collection('carts').updateOne(query, { $set: payload });
+                    const result = yield db.collection('products').updateOne(query, { $set: payload });
                     return result;
                 }
                 catch (error) {
@@ -61,13 +61,13 @@ class CartsCollection {
             })
         });
         this.server.method({
-            name: 'datasource.carts.delete',
+            name: 'datasource.products.delete',
             method: (id, payload) => __awaiter(this, void 0, void 0, function* () {
                 try {
                     const query = {
                         "_id": mongodb.ObjectId(id)
                     };
-                    const result = yield db.collection('carts').deleteOne(query);
+                    const result = yield db.collection('products').deleteOne(query);
                     return result;
                 }
                 catch (error) {
@@ -76,10 +76,10 @@ class CartsCollection {
             })
         });
         this.server.method({
-            name: 'datasource.carts.deleteAll',
+            name: 'datasource.products.deleteAll',
             method: () => __awaiter(this, void 0, void 0, function* () {
                 try {
-                    const result = yield db.collection('carts').deleteMany();
+                    const result = yield db.collection('products').deleteMany();
                     return result;
                 }
                 catch (error) {
@@ -89,5 +89,5 @@ class CartsCollection {
         });
     }
 }
-exports.CartsCollection = CartsCollection;
-//# sourceMappingURL=carts.collection.js.map
+exports.ProductsCollection = ProductsCollection;
+//# sourceMappingURL=product.collection.js.map

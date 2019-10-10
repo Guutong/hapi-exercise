@@ -13,19 +13,19 @@ const Boom = require("@hapi/boom");
 const Joi = require("@hapi/joi");
 class Plugin {
     constructor() {
-        this.name = 'cartsPlugin';
+        this.name = 'productsPlugin';
         this.version = '1.0.0';
-        this.carts = [];
+        this.products = [];
     }
     register(server) {
         return __awaiter(this, void 0, void 0, function* () {
             server.route({
                 method: 'GET',
-                path: '/carts',
+                path: '/products',
                 handler: (request, h) => __awaiter(this, void 0, void 0, function* () {
                     const id = request.query.id;
                     try {
-                        const result = yield server.methods.datasource.carts.get(id);
+                        const result = yield server.methods.datasource.products.get(id);
                         return result;
                     }
                     catch (error) {
@@ -43,11 +43,11 @@ class Plugin {
             });
             server.route({
                 method: 'POST',
-                path: '/carts',
+                path: '/products',
                 handler: (request, h) => __awaiter(this, void 0, void 0, function* () {
                     const payload = request.payload;
                     try {
-                        const result = yield server.methods.datasource.carts.insert(payload);
+                        const result = yield server.methods.datasource.products.insert(payload);
                         return result;
                     }
                     catch (error) {
@@ -67,12 +67,12 @@ class Plugin {
             });
             server.route({
                 method: 'PATCH',
-                path: '/carts/{id}',
+                path: '/products/{id}',
                 handler: (request, h) => __awaiter(this, void 0, void 0, function* () {
                     const id = request.params.id;
                     const payload = request.payload;
                     try {
-                        const result = yield server.methods.datasource.carts.update(id, payload);
+                        const result = yield server.methods.datasource.products.update(id, payload);
                         return result;
                     }
                     catch (error) {
@@ -95,11 +95,11 @@ class Plugin {
             });
             server.route({
                 method: 'DELETE',
-                path: '/carts/{id}',
+                path: '/products/{id}',
                 handler: (request, h) => __awaiter(this, void 0, void 0, function* () {
                     const id = request.params.id;
                     try {
-                        const result = yield server.methods.datasource.carts.delete(id);
+                        const result = yield server.methods.datasource.products.delete(id);
                         return result;
                     }
                     catch (error) {
@@ -117,10 +117,10 @@ class Plugin {
             });
             server.route({
                 method: 'DELETE',
-                path: '/carts',
+                path: '/products',
                 handler: (request, h) => __awaiter(this, void 0, void 0, function* () {
                     try {
-                        const result = yield server.methods.datasource.carts.deleteAll();
+                        const result = yield server.methods.datasource.products.deleteAll();
                         return result;
                     }
                     catch (error) {
@@ -135,4 +135,4 @@ class Plugin {
     }
 }
 exports.default = Plugin;
-//# sourceMappingURL=cart.js.map
+//# sourceMappingURL=product.js.map

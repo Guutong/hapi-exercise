@@ -11,6 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const carts_collection_1 = require("./collections/carts.collection");
 const shipping_collection_1 = require("./collections/shipping.collection");
+const product_collection_1 = require("./collections/product.collection");
 class Plugin {
     constructor() {
         this.name = "datasource";
@@ -20,6 +21,7 @@ class Plugin {
         return __awaiter(this, void 0, void 0, function* () {
             new carts_collection_1.CartsCollection(server, options).register();
             new shipping_collection_1.ShippingCollection(server, options).register();
+            new product_collection_1.ProductsCollection(server, options).register();
         });
     }
 }

@@ -3,18 +3,18 @@ import * as Boom from "@hapi/boom";
 import * as Joi from "@hapi/joi";
 
 export default class Plugin { 
-    name: string = 'cartsPlugin';
+    name: string = 'productsPlugin';
     version: string = '1.0.0';
-    carts = [];
+    products = [];
 
     async register(server) { 
         server.route({
             method: 'GET',
-            path: '/carts',
+            path: '/products',
             handler: async (request: Hapi.Request, h: Hapi.ResponseToolkit) => {
                 const id = request.query.id
                 try {
-                    const result = await server.methods.datasource.carts.get(id)
+                    const result = await server.methods.datasource.products.get(id)
                     return result;
                 } catch (error) {
                     Boom.internal("Internal server error: ", error);
@@ -32,11 +32,11 @@ export default class Plugin {
     
         server.route({
             method: 'POST',
-            path:'/carts',
+            path:'/products',
             handler: async (request: Hapi.Request, h: Hapi.ResponseToolkit) => {
                 const payload = request.payload
                 try {
-                    const result = await server.methods.datasource.carts.insert(payload);
+                    const result = await server.methods.datasource.products.insert(payload);
                     return result;
                 } catch (error) {
                     Boom.internal("Internal server error: ", error);
@@ -56,12 +56,12 @@ export default class Plugin {
     
         server.route({
             method: 'PATCH',
-            path:'/carts/{id}',
+            path:'/products/{id}',
             handler: async (request: Hapi.Request, h: Hapi.ResponseToolkit) => {
                 const id = request.params.id
                 const payload = request.payload
                 try {
-                    const result = await server.methods.datasource.carts.update(id, payload);
+                    const result = await server.methods.datasource.products.update(id, payload);
                     return result;
                 } catch (error) {
                     Boom.internal("Internal server error: ", error);
@@ -84,11 +84,11 @@ export default class Plugin {
     
         server.route({
             method: 'DELETE',
-            path:'/carts/{id}',
+            path:'/products/{id}',
             handler: async (request: Hapi.Request, h: Hapi.ResponseToolkit) => {
                 const id = request.params.id
                 try {
-                    const result = await server.methods.datasource.carts.delete(id);
+                    const result = await server.methods.datasource.products.delete(id);
                     return result;
                 } catch (error) {
                     Boom.internal("Internal server error: ", error);
@@ -106,10 +106,10 @@ export default class Plugin {
 
         server.route({
             method: 'DELETE',
-            path: '/carts',
+            path: '/products',
             handler: async (request: Hapi.Request, h: Hapi.ResponseToolkit) => {
                 try {
-                    const result = await server.methods.datasource.carts.deleteAll();
+                    const result = await server.methods.datasource.products.deleteAll();
                     return result;
                 } catch (error) {
                     Boom.internal("Internal server error: ", error);
